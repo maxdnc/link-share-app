@@ -5,7 +5,7 @@ interface InstructionMessageProps {
 
 function InstructionMessage({ title, description }: InstructionMessageProps) {
   return (
-    <div className="my-16 flex flex-col gap-4 mx-auto">
+    <div className=" flex flex-col gap-4">
       <h1 className="text-dark-grey font-instrument text-3xl font-bold">
         {title}
       </h1>
