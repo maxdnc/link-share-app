@@ -11,6 +11,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:prettier/recommended',
   ],
+  ignorePatterns: ['tailwind.config.js'],
   overrides: [
     {
       env: {
