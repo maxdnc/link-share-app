@@ -1,10 +1,6 @@
 // react
 import { ChangeEvent, useState } from 'react';
 
-// icons
-import { HiOutlineMail } from 'react-icons/hi';
-import { RiLockPasswordFill } from 'react-icons/ri';
-
 // assets
 import DevLinkLogo from '../../../assets/logo/devlink-logo.svg';
 
@@ -13,6 +9,9 @@ import CustomInput from '../../reusable-ui/CustomInput';
 import InstructionMessage from './InstructionMessage';
 import ButtonPrimary from '../../reusable-ui/ButtonPrimary';
 import HintLinkMessage from './HintLinkMessage';
+
+// Config
+import getLoginInputsConfig from './customInputsConfig';
 
 interface FormData {
   email: string;
@@ -32,7 +31,7 @@ function Login() {
       [name]: value,
     }));
   };
-
+  const loginInputs = getLoginInputsConfig(formData);
   return (
     <main className="p-8 flex flex-col items-center justify-center ">
       <img src={DevLinkLogo} alt="devlink logo" className="self-start mb-16" />
@@ -42,28 +41,25 @@ function Login() {
           title="Login"
           description=" Add your details below to get back into the app"
         />
-        <CustomInput
-          label="Email Address"
-          type="email"
-          placeholder="e.g. maxime@email.com"
-          id="email-user"
-          version="default"
-          icon={<HiOutlineMail />}
-          name="email"
-          onChange={handleChange}
-          value={formData.email}
-        />
-        <CustomInput
-          label="Password"
-          type="text"
-          placeholder="Enter your password"
-          id="password-user"
-          version="default"
-          icon={<RiLockPasswordFill />}
-          name="password"
-          onChange={handleChange}
-          value={formData.password}
-        />
+
+        {loginInputs.map(
+          ({ id, label, type, placeholder, icon, name, value }) => {
+            return (
+              <CustomInput
+                key={id}
+                label={label}
+                type={type}
+                placeholder={placeholder}
+                id={id}
+                version="default"
+                icon={icon}
+                name={name}
+                onChange={handleChange}
+                value={value}
+              />
+            );
+          }
+        )}
         <ButtonPrimary label="Login" />
         <HintLinkMessage
           message="Don't have an account ?"
