@@ -1,9 +1,6 @@
 // react
 import { ChangeEvent, useState } from 'react';
 
-// react-router
-import { Link } from 'react-router-dom';
-
 // icons
 import { HiOutlineMail } from 'react-icons/hi';
 import { RiLockPasswordFill } from 'react-icons/ri';
@@ -14,6 +11,8 @@ import DevLinkLogo from '../../../assets/logo/devlink-logo.svg';
 // components
 import CustomInput from '../../reusable-ui/CustomInput';
 import InstructionMessage from './InstructionMessage';
+import ButtonPrimary from '../../reusable-ui/ButtonPrimary';
+import HintLinkMessage from './HintLinkMessage';
 
 interface FormData {
   email: string;
@@ -35,13 +34,14 @@ function Login() {
   };
 
   return (
-    <main className="p-8 ">
-      <img src={DevLinkLogo} alt="devlink logo" className="mx-auto" />
-      <InstructionMessage
-        title="Login"
-        description=" Add your details below to get back into the app"
-      />
-      <form className="flex flex-col items-center max-w-md gap-8">
+    <main className="p-8 flex flex-col items-center justify-center ">
+      <img src={DevLinkLogo} alt="devlink logo" className="self-start mb-16" />
+
+      <form className="flex flex-col  max-w-md w-full gap-8 mx-auto">
+        <InstructionMessage
+          title="Login"
+          description=" Add your details below to get back into the app"
+        />
         <CustomInput
           label="Email Address"
           type="email"
@@ -53,7 +53,6 @@ function Login() {
           onChange={handleChange}
           value={formData.email}
         />
-
         <CustomInput
           label="Password"
           type="text"
@@ -65,16 +64,13 @@ function Login() {
           onChange={handleChange}
           value={formData.password}
         />
-        <button type="submit">Login</button>
+        <ButtonPrimary label="Login" />
+        <HintLinkMessage
+          message="Don't have an account ?"
+          link="/signin"
+          label="Create account"
+        />
       </form>
-
-      <p>
-        no account ?{' '}
-        <Link to="/signup" className="underline text-blue-500">
-          {' '}
-          Create account
-        </Link>
-      </p>
     </main>
   );
 }
