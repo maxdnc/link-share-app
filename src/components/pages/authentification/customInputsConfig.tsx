@@ -6,9 +6,14 @@ interface ValueLogin {
   email: string;
   password: string;
 }
+interface ValueSignIn {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
 
-interface LoginInputConfig {
-  type: string;
+interface InputConfig {
+  type: 'text' | 'email';
   label: string;
   placeholder: string;
   id: string;
@@ -17,10 +22,10 @@ interface LoginInputConfig {
   value: string;
 }
 
-const getLoginInputsConfig = (formData: ValueLogin): LoginInputConfig[] => [
+const getLoginInputsConfig = (formData: ValueLogin): InputConfig[] => [
   {
-    type: 'Email Addres',
-    label: 'email',
+    type: 'email',
+    label: 'Email Addres',
     placeholder: 'e.g. maxime@email.com',
     id: 'email-user',
     icon: <HiOutlineMail />,
@@ -38,4 +43,37 @@ const getLoginInputsConfig = (formData: ValueLogin): LoginInputConfig[] => [
   },
 ];
 
-export default getLoginInputsConfig;
+const getSignInInputsConfig = (formData: ValueSignIn): InputConfig[] => [
+  {
+    type: 'email',
+    label: 'Email address',
+    placeholder: 'e.g. maxime@email.com',
+    id: 'email-new-user',
+    icon: <HiOutlineMail />,
+    name: 'email',
+    value: formData.email,
+  },
+  {
+    type: 'text',
+    label: 'Create Password',
+    placeholder: 'At least 8 characters',
+    id: 'password-new-user',
+    icon: <RiLockPasswordFill />,
+    name: 'password',
+    value: formData.password,
+  },
+  {
+    type: 'text',
+    label: 'Confirm Password',
+    placeholder: 'Write the same password',
+    id: 'confirm-password-new-user',
+    icon: <RiLockPasswordFill />,
+    name: 'passwordConfirm',
+    value: formData.passwordConfirm,
+  },
+];
+
+export default {
+  getLoginInputsConfig,
+  getSignInInputsConfig,
+};

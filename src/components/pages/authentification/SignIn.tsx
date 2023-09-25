@@ -1,10 +1,6 @@
 // react
 import { ChangeEvent, useState } from 'react';
 
-// icons
-import { HiOutlineMail } from 'react-icons/hi';
-import { RiLockPasswordFill } from 'react-icons/ri';
-
 // assets
 import DevLinkLogo from '../../../assets/logo/devlink-logo.svg';
 
@@ -13,6 +9,8 @@ import CustomInput from '../../reusable-ui/CustomInput';
 import InstructionMessage from './InstructionMessage';
 import ButtonPrimary from '../../reusable-ui/ButtonPrimary';
 import HintLinkMessage from './HintLinkMessage';
+// Config
+import inputConfig from './customInputsConfig';
 
 interface FormData {
   email: string;
@@ -34,6 +32,7 @@ function SignIn() {
       [name]: value,
     }));
   };
+  const signInInputs = inputConfig.getSignInInputsConfig(formData);
 
   return (
     <main className="p-8 flex flex-col items-center justify-center ">
@@ -44,39 +43,25 @@ function SignIn() {
           title="Create Account"
           description="Let's get you started sharing your links!"
         />
-        <CustomInput
-          label="Email Address"
-          type="email"
-          placeholder="e.g. maxime@email.com"
-          id="email-new-user"
-          version="default"
-          icon={<HiOutlineMail />}
-          name="email"
-          onChange={handleChange}
-          value={formData.email}
-        />
-        <CustomInput
-          label="Create Password"
-          type="text"
-          placeholder="At least 8 characters"
-          id="password-new-user"
-          version="default"
-          icon={<RiLockPasswordFill />}
-          name="password"
-          onChange={handleChange}
-          value={formData.password}
-        />
-        <CustomInput
-          label="Confirm Password"
-          type="text"
-          placeholder="Write the same password"
-          id="confirm-password-new-user"
-          version="default"
-          icon={<RiLockPasswordFill />}
-          name="passwordConfirm"
-          onChange={handleChange}
-          value={formData.password}
-        />
+        {signInInputs.map(
+          ({ id, label, type, placeholder, icon, name, value }) => {
+            return (
+              <CustomInput
+                key={id}
+                label={label}
+                type={type}
+                placeholder={placeholder}
+                id={id}
+                version="default"
+                icon={icon}
+                name={name}
+                onChange={handleChange}
+                value={value}
+              />
+            );
+          }
+        )}
+
         <ButtonPrimary label="Create new account" />
         <HintLinkMessage
           message="Already have an account ?"
