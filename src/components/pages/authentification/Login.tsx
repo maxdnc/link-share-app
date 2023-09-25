@@ -11,7 +11,7 @@ import ButtonPrimary from '../../reusable-ui/ButtonPrimary';
 import HintLinkMessage from './HintLinkMessage';
 
 // Config
-import getLoginInputsConfig from './customInputsConfig';
+import inputConfig from './customInputsConfig';
 
 interface FormData {
   email: string;
@@ -31,7 +31,7 @@ function Login() {
       [name]: value,
     }));
   };
-  const loginInputs = getLoginInputsConfig(formData);
+  const loginInputs = inputConfig.getLoginInputsConfig(formData);
   return (
     <main className="p-8 flex flex-col items-center justify-center ">
       <img src={DevLinkLogo} alt="devlink logo" className="self-start mb-16" />
