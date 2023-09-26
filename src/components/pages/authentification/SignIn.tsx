@@ -1,6 +1,10 @@
 // react
 import { ChangeEvent, FormEvent, useState } from 'react';
-
+// router
+import { useNavigate } from 'react-router-dom';
+// firebase
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import auth from '../../../api/firebase.config';
 // assets
 import DevLinkLogo from '../../../assets/logo/devlink-logo.svg';
 
@@ -28,24 +32,57 @@ function SignIn() {
   });
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (event: FormEvent) => {
+  const navigate = useNavigate();
+
+  const signupNewUser = async (email: string, password: string) => {
+    const mapFirebaseErrorToMessage = (errorCode: string): string => {
+      switch (errorCode) {
+        case 'auth/email-already-in-use':
+          return 'This email is already in use.';
+
+        default:
+          return 'An error occurred. Please try again later.';
+      }
+    };
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      return userCredential;
+    } catch (errorAuth) {
+      const errorCode = (errorAuth as { code: string }).code;
+      const errorMessage = mapFirebaseErrorToMessage(errorCode);
+      setError(errorMessage);
+      return null;
+    }
+  };
+
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setError(null);
-    const validationError = errorUtils.validateFields(formData);
 
+    const validationError = errorUtils.validateFields(formData);
     if (validationError) {
       setError(validationError);
+    } else {
+      const authResult = await signupNewUser(formData.email, formData.password);
+      if (authResult) {
+        navigate('/');
+      }
     }
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }));
   };
+
   const signInInputs = inputConfig.getSignInInputsConfig(formData);
   const getInputVersion = (fieldName: string): string => {
     return errorUtils.getInputVersion(fieldName, formData, error);
