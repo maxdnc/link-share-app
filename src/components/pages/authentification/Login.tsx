@@ -1,6 +1,3 @@
-// react
-import { ChangeEvent, useState } from 'react';
-
 // assets
 import DevLinkLogo from '../../../assets/logo/devlink-logo.svg';
 
@@ -12,31 +9,23 @@ import HintLinkMessage from './HintLinkMessage';
 
 // Config
 import inputConfig from './customInputsConfig';
-
-interface FormData {
-  email: string;
-  password: string;
-}
+import useAuthForm from '../../../hooks/useAuthForm';
 
 function Login() {
-  const [formData, setFormData] = useState<FormData>({
-    email: '',
-    password: '',
-  });
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
+  const { handleChange, handleLogin, formData, error, isLoading } =
+    useAuthForm();
   const loginInputs = inputConfig.getLoginInputsConfig(formData);
+
   return (
     <main className="p-8 flex flex-col items-center justify-center ">
       <img src={DevLinkLogo} alt="devlink logo" className="self-start mb-16" />
 
-      <form className="flex flex-col  max-w-md w-full gap-8 mx-auto">
+      <form
+        className="flex flex-col  max-w-md w-full gap-8 mx-auto"
+        onSubmit={(event) => {
+          handleLogin(event);
+        }}
+      >
         <InstructionMessage
           title="Login"
           description=" Add your details below to get back into the app"
@@ -54,12 +43,16 @@ function Login() {
                 version="default"
                 icon={icon}
                 name={name}
-                onChange={handleChange}
+                onChange={(event) => handleChange(name, event.target.value)}
                 value={value}
               />
             );
           }
         )}
+        {isLoading ? (
+          <p className="text-blue-400 text-sm">Fetching data</p>
+        ) : null}
+        {error ? <p className="text-red-pri text-sm">{error}</p> : null}
         <ButtonPrimary label="Login" />
         <HintLinkMessage
           message="Don't have an account ?"
