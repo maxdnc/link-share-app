@@ -1,10 +1,5 @@
-// react
-import { ChangeEvent, FormEvent, useState } from 'react';
-// router
-import { useNavigate } from 'react-router-dom';
-// firebase
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import auth from '../../../api/firebase.config';
+// hook
+import useAuthForm from '../../../hooks/useAuthForm';
 // assets
 import DevLinkLogo from '../../../assets/logo/devlink-logo.svg';
 
@@ -18,70 +13,9 @@ import inputConfig from './customInputsConfig';
 // Utils
 import errorUtils from '../../../utils/errorUtils';
 
-interface FormData {
-  email: string;
-  password: string;
-  passwordConfirm: string;
-}
-
 function SignIn() {
-  const [formData, setFormData] = useState<FormData>({
-    email: '',
-    password: '',
-    passwordConfirm: '',
-  });
-  const [error, setError] = useState<string | null>(null);
-
-  const navigate = useNavigate();
-
-  const signupNewUser = async (email: string, password: string) => {
-    const mapFirebaseErrorToMessage = (errorCode: string): string => {
-      switch (errorCode) {
-        case 'auth/email-already-in-use':
-          return 'This email is already in use.';
-
-        default:
-          return 'An error occurred. Please try again later.';
-      }
-    };
-
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      return userCredential;
-    } catch (errorAuth) {
-      const errorCode = (errorAuth as { code: string }).code;
-      const errorMessage = mapFirebaseErrorToMessage(errorCode);
-      setError(errorMessage);
-      return null;
-    }
-  };
-
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    setError(null);
-
-    const validationError = errorUtils.validateFields(formData);
-    if (validationError) {
-      setError(validationError);
-    } else {
-      const authResult = await signupNewUser(formData.email, formData.password);
-      if (authResult) {
-        navigate('/');
-      }
-    }
-  };
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
+  const { formData, error, isLoading, handleChange, handleSignIn } =
+    useAuthForm();
 
   const signInInputs = inputConfig.getSignInInputsConfig(formData);
   const getInputVersion = (fieldName: string): string => {
@@ -94,7 +28,9 @@ function SignIn() {
 
       <form
         className="flex flex-col  max-w-md w-full gap-8 mx-auto"
-        onSubmit={handleSubmit}
+        onSubmit={(event) => {
+          handleSignIn(event);
+        }}
       >
         <InstructionMessage
           title="Create Account"
@@ -112,12 +48,16 @@ function SignIn() {
                 version={getInputVersion(name)}
                 icon={icon}
                 name={name}
-                onChange={handleChange}
+                onChange={(event) => handleChange(name, event.target.value)}
                 value={value}
               />
             );
           }
         )}
+        {isLoading ? (
+          <p className="text-blue-400 text-sm">Creating your account</p>
+        ) : null}
+
         {error ? <p className="text-red-pri text-sm">{error}</p> : null}
         <ButtonPrimary label="Create new account" />
         <HintLinkMessage
