@@ -2,7 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { FormEvent, useState } from 'react';
 import {
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
   UserCredential,
 } from 'firebase/auth';
 import auth from '../api/firebase.config';
@@ -33,6 +35,7 @@ const useAuthForm = () => {
   });
   const [error, setError] = useState<string | null>(null);
   const [user, setUser] = useState<UserCredential | null>(null);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -92,6 +95,19 @@ const useAuthForm = () => {
     }
   };
 
+  const isUserConnected = async () => {
+    return new Promise<boolean>((resolve) => {
+      onAuthStateChanged(auth, (userConnected) => {
+        resolve(!!userConnected);
+      });
+    });
+  };
+  const handleSignOut = () => {
+    signOut(auth).then(() => {
+      navigate('/login');
+    });
+  };
+
   return {
     formData,
     error,
@@ -100,6 +116,8 @@ const useAuthForm = () => {
     handleChange,
     handleSignIn,
     handleLogin,
+    isUserConnected,
+    handleSignOut,
   };
 };
 

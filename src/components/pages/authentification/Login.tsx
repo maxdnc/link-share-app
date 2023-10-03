@@ -1,6 +1,7 @@
+// react
+import { useEffect } from 'react';
 // assets
 import DevLinkLogo from '../../../assets/logo/devlink-logo.svg';
-
 // components
 import CustomInput from '../../reusable-ui/CustomInput';
 import InstructionMessage from './InstructionMessage';
@@ -9,12 +10,32 @@ import HintLinkMessage from './HintLinkMessage';
 
 // Config
 import inputConfig from './customInputsConfig';
+
+// hook
 import useAuthForm from '../../../hooks/useAuthForm';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  const { handleChange, handleLogin, formData, error, isLoading } =
-    useAuthForm();
+  const {
+    handleChange,
+    handleLogin,
+    formData,
+    error,
+    isLoading,
+    isUserConnected,
+  } = useAuthForm();
+  const navigate = useNavigate();
   const loginInputs = inputConfig.getLoginInputsConfig(formData);
+
+  useEffect(() => {
+    const checkUserConnection = async () => {
+      const userIsConnected = await isUserConnected();
+      if (userIsConnected) {
+        navigate('/');
+      }
+    };
+    checkUserConnection();
+  });
 
   return (
     <main className="p-8 flex flex-col items-center justify-center ">

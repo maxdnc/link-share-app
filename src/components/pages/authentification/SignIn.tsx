@@ -1,3 +1,7 @@
+// react
+import { useEffect } from 'react';
+// react router
+import { useNavigate } from 'react-router-dom';
 // hook
 import useAuthForm from '../../../hooks/useAuthForm';
 // assets
@@ -14,8 +18,26 @@ import inputConfig from './customInputsConfig';
 import errorUtils from '../../../utils/errorUtils';
 
 function SignIn() {
-  const { formData, error, isLoading, handleChange, handleSignIn } =
-    useAuthForm();
+  const {
+    formData,
+    error,
+    isLoading,
+    handleChange,
+    handleSignIn,
+    isUserConnected,
+  } = useAuthForm();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkUserConnection = async () => {
+      const userIsConnected = await isUserConnected();
+      if (userIsConnected) {
+        navigate('/');
+      }
+    };
+
+    checkUserConnection();
+  });
 
   const signInInputs = inputConfig.getSignInInputsConfig(formData);
   const getInputVersion = (fieldName: string): string => {
