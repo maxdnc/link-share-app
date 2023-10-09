@@ -1,12 +1,20 @@
 interface ButtonPrimaryProps {
   label: string;
+  version: string;
 }
 
-function ButtonPrimary({ label }: ButtonPrimaryProps) {
+function ButtonPrimary({ label, version = 'default' }: ButtonPrimaryProps) {
+  const versionsStyles: Record<string, string> = {
+    default:
+      'bg-purple-pri text-white-pri active:bg-purple-pri hover:bg-purple-sec',
+    white:
+      'bg-white-pri border-purple-pri text-purple-pri hover:bg-purple-sec active:bg-white-pri',
+  };
+  const style = versionsStyles[version] || versionsStyles.default;
   return (
     <button
       type="submit"
-      className="bg-purple-pri text-white-pri font-bold w-full h-12 rounded-lg border  active:bg-purple-pri  transition hover:bg-purple-sec"
+      className={`${style} rounded-lg border transition font-bold w-full h-12 `}
     >
       {label}
     </button>
