@@ -1,6 +1,11 @@
+// react
 import { useEffect } from 'react';
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
+// react router
+import { Outlet, useNavigate } from 'react-router-dom';
+
+// hook
 import useAuthForm from '../../../hooks/useAuthForm';
+import NavBar from './NavBar';
 
 function MainLayout() {
   const navigate = useNavigate();
@@ -18,25 +23,15 @@ function MainLayout() {
   return (
     <>
       <header>
-        <nav className="flex justify-between">
-          <button type="button" className="bg-blue-400" onClick={handleSignOut}>
-            log out
-          </button>
-          <Link to="/">logo</Link>
-          <ul className="flex gap-4">
-            <li>
-              <NavLink to="/links">Links</NavLink>
-            </li>
-            <li>
-              <NavLink to="/details">Profil Details</NavLink>
-            </li>
-          </ul>
-          <Link to="/preview">Preview</Link>
-        </nav>
+        <NavBar />
       </header>
+
       <main className="p-8">
         <Outlet />
       </main>
+      <button type="button" className="bg-blue-400" onClick={handleSignOut}>
+        log out
+      </button>
     </>
   );
 }
