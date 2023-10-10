@@ -3,7 +3,7 @@ import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Login from './components/pages/authentification/Login';
 import SignIn from './components/pages/authentification/SignIn';
 
-import Links from './components/pages/home/Links';
+import CustomLinks from './components/pages/home/CustomLinks';
 import Details from './components/pages/home/Details';
 import MainLayout from './components/pages/home/MainLayout';
 import Preview from './components/pages/preview/Preview';
@@ -13,8 +13,8 @@ function App() {
     <HashRouter>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Navigate to="/links" />} />
-          <Route path="/links" index element={<Links />} />
+          <Route index element={<Navigate to="/customlinks" />} />
+          <Route path="/customlinks" index element={<CustomLinks />} />
           <Route path="/details" element={<Details />} />
         </Route>
         <Route path="/preview" element={<Preview />} />

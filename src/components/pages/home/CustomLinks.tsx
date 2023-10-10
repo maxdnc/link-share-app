@@ -5,7 +5,7 @@ import ButtonPrimary from '../../reusable-ui/ButtonPrimary';
 // assets
 import SmartPhone from '../../../assets/logo/smartphone.svg';
 
-function Links() {
+function CustomLinks() {
   return (
     <div>
       {' '}
@@ -45,4 +45,4 @@ function Links() {
     </div>
   );
 }
-export default Links;
+export default CustomLinks;
