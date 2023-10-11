@@ -1,5 +1,7 @@
 // react
 import { useEffect } from 'react';
+// react router
+import { useNavigate } from 'react-router-dom';
 // assets
 import DevLinkLogo from '../../../assets/logo/devlink-logo.svg';
 // components
@@ -13,7 +15,6 @@ import inputConfig from './customInputsConfig';
 
 // hook
 import useAuthForm from '../../../hooks/useAuthForm';
-import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const {
@@ -74,7 +75,7 @@ function Login() {
           <p className="text-blue-400 text-sm">Fetching data</p>
         ) : null}
         {error ? <p className="text-red-pri text-sm">{error}</p> : null}
-        <ButtonPrimary label="Login" />
+        <ButtonPrimary label="Login" version="default" />
         <HintLinkMessage
           message="Don't have an account ?"
           link="/signin"

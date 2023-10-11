@@ -81,7 +81,7 @@ function SignIn() {
         ) : null}
 
         {error ? <p className="text-red-pri text-sm">{error}</p> : null}
-        <ButtonPrimary label="Create new account" />
+        <ButtonPrimary label="Create new account" version="default" />
         <HintLinkMessage
           message="Already have an account ?"
           link="/login"

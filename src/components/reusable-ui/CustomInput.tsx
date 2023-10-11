@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 
 interface CustomInputProps {
   label: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   placeholder: string;
   id: string;
   version: string;
@@ -14,7 +14,7 @@ interface CustomInputProps {
 
 function CustomInput({
   label,
-  icon,
+  icon = null,
   placeholder,
   id,
   version = 'default',
@@ -25,7 +25,9 @@ function CustomInput({
 }: CustomInputProps) {
   const versionsStyles: Record<string, string> = {
     default:
-      'border-border-pri  hover:border-purple-pri hover:shadow-purple-pri/20 focus:shadow-purple-pri/20 focus:shadow-lg focus:outline-purple-pri caret-purple-pri',
+      'border-border-pri hover:border-purple-pri hover:shadow-purple-pri/20 focus:shadow-purple-pri/20 focus:shadow-lg focus:outline-purple-pri caret-purple-pri w-full h-12 pl-11',
+    noIcon:
+      'border-border-pri hover:border-purple-pri hover:shadow-purple-pri/20 focus:shadow-purple-pri/20 focus:shadow-lg focus:outline-purple-pri caret-purple-pri w-full h-12 pl-4',
     error:
       'border-red-pri text-red-pri border rounded-lg w-full h-12 pl-11  hover:border-red-pri hover:shadow-purple-pri/20  ',
   };
@@ -40,7 +42,7 @@ function CustomInput({
           type={type}
           id={id}
           placeholder={placeholder}
-          className={`${style} transition border rounded-lg w-full h-12 pl-11 placeholder:text-dark-grey/50  hover:shadow-lg focus:shadow-purple-pri/20 focus:shadow-lg `}
+          className={`${style} transition border rounded-lg  placeholder:text-dark-grey/50  hover:shadow-lg focus:shadow-purple-pri/20 focus:shadow-lg `}
           value={value}
           onChange={onChange}
           name={name}

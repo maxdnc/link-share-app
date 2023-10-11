@@ -1,9 +1,13 @@
+// react
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+// react router
+import { Outlet, useNavigate } from 'react-router-dom';
 
+// hook
 import useAuthForm from '../../../hooks/useAuthForm';
+import NavBar from './NavBar';
 
-function Home() {
+function MainLayout() {
   const navigate = useNavigate();
   const { isUserConnected, handleSignOut } = useAuthForm();
 
@@ -16,20 +20,19 @@ function Home() {
     };
     checkUserConnection();
   });
-
   return (
-    <div>
-      <h1>Home</h1>
-      <p>
-        Please login{' '}
-        <Link to="/login" className="text-blue-400 underline">
-          here
-        </Link>{' '}
-      </p>
+    <>
+      <header>
+        <NavBar />
+      </header>
+
+      <main className="p-8">
+        <Outlet />
+      </main>
       <button type="button" className="bg-blue-400" onClick={handleSignOut}>
         log out
       </button>
-    </div>
+    </>
   );
 }
-export default Home;
+export default MainLayout;
