@@ -1,6 +1,7 @@
 // component
 import ButtonPrimary from '../../reusable-ui/ButtonPrimary';
 import CustomInput from '../../reusable-ui/CustomInput';
+import ImageUploader from './ImageUploader';
 
 function Details() {
   const handleChange = () => {};
@@ -13,6 +14,7 @@ function Details() {
           Add your details to create a personal touch to your profile.
         </p>
       </div>
+      <ImageUploader />
       <form className="flex flex-col gap-4">
         <CustomInput
           label="First Name*"
