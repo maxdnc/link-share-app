@@ -37,7 +37,7 @@ function LinkPrimary({ to, icon, label, version }: LinkPrimaryProps) {
   return (
     <NavLink to={to} className={({ isActive }) => getClassName(isActive)}>
       {icon && <span>{icon}</span>}
-      <span className="hidden">{label}</span>
+      <span className="text-base hidden md:inline-block">{label}</span>
     </NavLink>
   );
 }

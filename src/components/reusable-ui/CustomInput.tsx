@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 
 interface CustomInputProps {
   label: string;
-  icon: React.ReactNode | null;
+  icon?: React.ReactNode;
   placeholder: string;
   id: string;
   version: string;

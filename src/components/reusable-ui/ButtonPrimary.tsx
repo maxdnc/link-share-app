@@ -1,9 +1,14 @@
 interface ButtonPrimaryProps {
   label: string;
   version: string;
+  onClick?: () => void;
 }
 
-function ButtonPrimary({ label, version = 'default' }: ButtonPrimaryProps) {
+function ButtonPrimary({
+  label,
+  version = 'default',
+  onClick,
+}: ButtonPrimaryProps) {
   const versionsStyles: Record<string, string> = {
     default:
       'bg-purple-pri text-white-pri active:bg-purple-pri hover:bg-purple-sec',
@@ -15,6 +20,7 @@ function ButtonPrimary({ label, version = 'default' }: ButtonPrimaryProps) {
     <button
       type="submit"
       className={`${style} rounded-lg border transition font-bold w-full h-12 `}
+      onClick={onClick}
     >
       {label}
     </button>
